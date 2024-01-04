@@ -179,8 +179,7 @@ class Sagittarius(nn.Module):
         loss_dict = {
             'loss': total_loss,
             'MSE': cvae_losses['MSE'],
-            # 'KLD': cvae_losses['KLD']}
-        }
+            'KLD': cvae_losses['KLD']}
         return loss_dict
 
     def generate(self, xs, old_ts, new_ts, old_ys, new_ys, old_mask,
@@ -902,12 +901,12 @@ class cVAE(nn.Module):
 
         kld_loss = torch.mean(-0.5 * torch.sum(
             1 + log_var - mu ** 2 - log_var.exp(), dim=1), dim=0)
-        # loss = recons_y_loss + beta * kld_loss
-        # return {'loss': loss, 'MSE': recons_y_loss, 'KLD': -kld_loss}
+        loss = recons_y_loss + beta * kld_loss
+        return {'loss': loss, 'MSE': recons_y_loss, 'KLD': -kld_loss}
         
         
-        loss = recons_y_loss
-        return {'loss': loss, 'MSE': recons_y_loss}
+        #loss = recons_y_loss
+        #return {'loss': loss, 'MSE': recons_y_loss}
     
 
 
